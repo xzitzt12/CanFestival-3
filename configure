@@ -286,6 +286,9 @@ if [ "$SUB_CAN_DRIVER" = "" ]; then
 		if [ -e /usr/lib/libpcan.so ]; then
 			echo "Choosing installed Peak driver as CAN driver."
 			SUB_CAN_DRIVER=peak_linux
+		elif [ -e /usr/lib/canalyst-ii/libcontrolcan.so ]; then
+			echo "Choosing installed CANalyst-ii driver as CAN driver."
+			SUB_CAN_DRIVER=canalyst_ii
 		elif [ "$SUB_OS_NAME" = "CYGWIN" -a "PCAN_LIB" != "" ]; then
 			echo "Choosing installed Peak driver as CAN driver."
 			SUB_CAN_DRIVER=peak_win32
@@ -406,6 +409,10 @@ fi
 
 if [ "$SUB_CAN_DRIVER" = "peak_linux" ]; then
     SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -lpcan
+fi
+
+if [ "$SUB_CAN_DRIVER" = "canalyst_ii" ]; then
+    SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -lcontrolcan
 fi
 
 if [ "$SUB_CAN_DRIVER" = "anagate_linux" ]; then
